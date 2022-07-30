@@ -1,6 +1,5 @@
 package com.atguigu.fruit.dao.impl;
 
-import cn.hutool.core.util.StrUtil;
 import com.atguigu.fruit.base.BaseDao;
 import com.atguigu.fruit.dao.FruitDao;
 import com.atguigu.fruit.entity.Fruit;
@@ -15,8 +14,8 @@ import java.util.List;
  */
 public class FruitDaoImpl extends BaseDao<Fruit> implements FruitDao {
     @Override
-    public List<Fruit> getFruitList() {
-        return super.executeQuery("select * from t_fruit");
+    public List<Fruit> getFruitList(Integer pageNo) {
+        return super.executeQuery("select * from t_fruit limit ?,5", (pageNo - 1) * 5);
     }
 
     @Override
@@ -54,6 +53,18 @@ public class FruitDaoImpl extends BaseDao<Fruit> implements FruitDao {
     @Override
     public void updateFruitById(Fruit fruit) {
         String sql = "update t_fruit set fname = ?,price = ?,fcount = ?,remark = ? where fid = ?";
-        super.executeUpdate(sql,fruit.getFname(),fruit.getPrice(),fruit.getFcount(),fruit.getRemark(), fruit.getFid());
+        super.executeUpdate(sql, fruit.getFname(), fruit.getPrice(), fruit.getFcount(), fruit.getRemark(), fruit.getFid());
+    }
+
+    @Override
+    public void deleteFruitById(Integer id) {
+        String sql = "delete from t_fruit where fid = ?";
+        super.executeUpdate(sql, id);
+    }
+
+    @Override
+    public int getFruitCount() {
+        String sql = "select count(*) from t_fruit";
+        return ((Long) super.executeComplexQuery(sql)[0]).intValue();
     }
 }

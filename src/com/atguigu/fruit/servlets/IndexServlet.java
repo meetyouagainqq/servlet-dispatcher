@@ -1,5 +1,6 @@
 package com.atguigu.fruit.servlets;
 
+import cn.hutool.core.util.StrUtil;
 import com.atguigu.fruit.dao.FruitDao;
 import com.atguigu.fruit.dao.impl.FruitDaoImpl;
 import com.atguigu.fruit.entity.Fruit;
@@ -23,11 +24,20 @@ import java.util.List;
 public class IndexServlet extends ViewBaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer pageNo=1;
         FruitDao fruitDao=new FruitDaoImpl();
-        List<Fruit> fruitList = fruitDao.getFruitList();
-       //fruitList.forEach(System.out::println);
+        String pageNoValue = req.getParameter("pageNo");
+        if(!StrUtil.isBlank(pageNoValue)){
+            pageNo=Integer.parseInt(pageNoValue);
+        }
+        List<Fruit> fruitList = fruitDao.getFruitList(pageNo);
         HttpSession session = req.getSession();
+        session.setAttribute("pageNo",pageNo);
         session.setAttribute("fruitList",fruitList);
+        int fruitCount = fruitDao.getFruitCount();
+        int totalPage=fruitCount/5;
+        totalPage=fruitCount%5==0?totalPage:totalPage+1;
+        session.setAttribute("totalPage",totalPage);
         super.processTemplate("index",req,resp);
     }
 }

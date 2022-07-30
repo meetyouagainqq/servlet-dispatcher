@@ -2,7 +2,8 @@ package com.atguigu.fruit.dao;
 
 import com.atguigu.fruit.entity.Fruit;
 
-import javax.swing.text.StyledEditorKit;
+
+
 import java.util.List;
 
 /**
@@ -12,12 +13,21 @@ import java.util.List;
  * @description
  */
 public interface FruitDao {
-    List<Fruit> getFruitList();
+    List<Fruit> getFruitList(Integer pageNo);
+
     boolean insertFruit(Fruit fruit);
+
     boolean updateFruit(Fruit fruit);
-   //根据名称查询特定库存
+
+    //根据名称查询特定库存
     Fruit getFruitByName(String fname);
+
     boolean deleteFruit(String fname);
+
     Fruit getFruitById(Integer id);
+
     void updateFruitById(Fruit fruit);
+
+    void deleteFruitById(Integer id);
+    int getFruitCount();
 }
