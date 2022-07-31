@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class FruitDaoImpl extends BaseDao<Fruit> implements FruitDao {
     @Override
-    public List<Fruit> getFruitList(Integer pageNo) {
-        return super.executeQuery("select * from t_fruit limit ?,5", (pageNo - 1) * 5);
+    public List<Fruit> getFruitList(String keyword,Integer pageNo) {
+        return super.executeQuery("select * from t_fruit where fname like ? limit ?,5","%"+keyword+"%", (pageNo - 1) * 5);
     }
 
     @Override
@@ -63,8 +63,8 @@ public class FruitDaoImpl extends BaseDao<Fruit> implements FruitDao {
     }
 
     @Override
-    public int getFruitCount() {
-        String sql = "select count(*) from t_fruit";
-        return ((Long) super.executeComplexQuery(sql)[0]).intValue();
+    public int getFruitCount(String keyword) {
+        String sql = "select count(*) from t_fruit where fname like ?";
+        return ((Long) super.executeComplexQuery(sql,"%"+keyword+"%")[0]).intValue();
     }
 }

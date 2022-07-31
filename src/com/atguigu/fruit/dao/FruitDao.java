@@ -13,7 +13,7 @@ import java.util.List;
  * @description
  */
 public interface FruitDao {
-    List<Fruit> getFruitList(Integer pageNo);
+    List<Fruit> getFruitList(String keyword,Integer pageNo);
 
     boolean insertFruit(Fruit fruit);
 
@@ -29,5 +29,5 @@ public interface FruitDao {
     void updateFruitById(Fruit fruit);
 
     void deleteFruitById(Integer id);
-    int getFruitCount();
+    int getFruitCount(String keyword);
 }
